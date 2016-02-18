@@ -1,0 +1,148 @@
+REPOTOOL - Repository Tool for Data Validation
+
+This tool maintains a manifest of files in a repository along with their hash
+values and last modified dates.  In this way, the data integrity of the
+repository can be validated conveniently.  The manifest is stored in a file at
+the top level directory of the repository.
+
+
+SYNTAX:
+
+rt command [option] ...
+
+
+COMMANDS:
+
+    help
+        Show this description of commands and options.
+
+    create
+        Create an empty repository manifest in the current directory.
+
+    status
+        Check every file in the manifest based on file length and last modified
+        date.  Check the hash values of modified files.  Report new files,
+        missing files, and any differences.
+
+    validate
+        Check every file in the manifest against its hash value.  Report new
+        files, missing files, and any differences.
+
+    update
+        Bring the manifest up to date with the current state of the repository.
+        By default, only the file length and last modified dates are checked.
+        New hashes will be computed for any changes detected.  The update will
+        account for new files, removed files, and changed files.  A new copy of
+        the manifest file will be written by this command.
+
+    edit
+        Make changes to the manifest settings without scanning files.  A new
+        copy of the manifest file will be written by this command.
+
+    groom
+        Remove any files that are not listed in the manifest(!)
+
+    info
+        Show manifest information.
+
+    clear
+        Clear the manifest.  Remove all file entries.
+
+
+OPTIONS:
+
+    -silent
+        Don't output anything.  Exit code may still be checked by a script.
+
+    -detail
+        List the actual files that are different - not just the counts.
+
+    -all
+        Process ignored files as well.  For -detail and groom.
+
+    -showProgress
+        List each file as it is being scanned.
+
+    -ignoreDate
+        Don't count a date change alone as being a significant difference
+        between the manifest and the repository.  Don't return an error exit
+        code for this difference alone.  Useful for status and validate
+        commands.
+
+    -ignoreNew
+        Don't count the presence of new files alone as being a significant
+        difference between the manifest and the repository.  Don't return an
+        error exit code for this difference alone.  Useful for status and
+        validate commands.
+
+    -force
+        Don't stop to ask for anything - deleting files, etc.
+
+    -time
+        Measure and report the time of the operation.
+
+    -name repositoryName
+        Specify the name of the repository in the manifest.
+
+    -description repositoryDescription
+        Specify a description of the repository in the manifest.
+
+    -backDate
+        For files whose last modified dates have been changed but are otherwise
+        identical, this option will set the dates back to their values which
+        were stored in the manifest.
+
+    -trackMoves
+        Try to identify files that have been renamed or moved based on their
+        hash values.
+
+    -trackDuplicates
+        Try to identify duplicate files based on their hash values.
+
+    -ignore ignoreExpression
+        Add a regular expression which matches filename paths which should be
+        ignored by the manifest.
+
+    -dontIgnore ignoreExpression
+        Remove a regular expression which was added with -ignore.
+
+    -ignoreDefault
+        Replace the list of ignored filename expressions with the default list.
+        The default list is obtained from the prototype manifest if it is
+        available.
+
+    -hashMethod method
+        Specify the default hash method used by the manifest: MD5 or SHA256
+		
+    -newHash
+        Recompute all hash values using the default hash method.  Useful if
+        the default hash method has changed and you want all files to be using
+        the default hash method.  This is not required because each file has
+        its own hash method which was inherited from the default when it was
+        last computed.  This is expensive because the hash is checked twice -
+        first with the original method to check the status, and second with
+        the new method to change the hash.
+
+    -reHash
+        Recompute all hash values during an update.  Useful if a file has
+        changed somehow but you don't care.  Maybe you've lost the original
+        file and you dont' want to be bothered with error messages any more.
+
+    -manifestFile
+        Path to the manifest file.  Defaults to ".manifestPrototype" in the
+        current working directory.
+
+    -recursive
+        Start in working directory and recursively search for and handle any
+        manifests in lower subdirectories.
+
+    -cascade
+        When using -recursive, descend to subdirectories inside a repository
+        to look for contained repositories.
+
+    -noTouch
+        After a validation, do not write to the manifest in order to update
+        the date of validation.
+
+    -confirmUpdate
+        After an update, ask the user before writing the updated manifest.
