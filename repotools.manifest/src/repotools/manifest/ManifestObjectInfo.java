@@ -36,5 +36,5 @@ public class ManifestObjectInfo
 	}
 
 	private String name;
-	private ManifestDirectoryInfo parentDirectory;
+	private transient ManifestDirectoryInfo parentDirectory;
 }

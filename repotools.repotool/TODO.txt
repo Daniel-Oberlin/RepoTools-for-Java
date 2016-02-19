@@ -1,0 +1,3 @@
+* Test and debug
+* Move comments over from .NET and clean up
+* Add ability to use manifest prototype by specifying command line option

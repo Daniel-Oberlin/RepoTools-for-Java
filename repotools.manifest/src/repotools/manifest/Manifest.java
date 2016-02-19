@@ -109,7 +109,29 @@ public class Manifest
 				new FileReader(manifestFilePath));
 
 		Gson gson = makeGson();
-		return gson.fromJson(reader, Manifest.class);
+		Manifest manifest = gson.fromJson(reader, Manifest.class);
+		
+		// We don't serialize references back to the parent because it causes
+		// cycles in the graph which can't be traversed by gson.
+		manifest.setParentDirectories(manifest.getRootDirectory());
+		
+		return manifest;
+	}
+	
+	protected void setParentDirectories(ManifestDirectoryInfo thisDir)
+	{
+		for (ManifestFileInfo nextFile :
+			thisDir.getFiles().values())
+		{
+			nextFile.setParentDirectory(thisDir);
+		}
+		
+		for (ManifestDirectoryInfo nextDir :
+			thisDir.getSubdirectories().values())
+		{
+			nextDir.setParentDirectory(thisDir);
+			setParentDirectories(nextDir);
+		}
 	}
 	
 	public void writeManifestFile(String manifestFilePath)

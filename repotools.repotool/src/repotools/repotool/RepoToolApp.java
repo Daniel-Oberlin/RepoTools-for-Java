@@ -392,14 +392,23 @@ public class RepoToolApp
 						console.writeLine("Date of creation:              " +
 							(tool.getManifest().getInceptionDateUtc().toString()));
 						
-						console.writeLine("Date of last update:           " +
-							(tool.getManifest().getLastUpdateDateUtc().toString()));
+						if (tool.getManifest().getLastUpdateDateUtc() != null)
+						{
+							console.writeLine("Date of last update:           " +
+								(tool.getManifest().getLastUpdateDateUtc().toString()));
+						}
 						
-						console.writeLine("Last change of manifest info:  " +
-							(tool.getManifest().getManifestInfoLastModifiedUtc().toString()));
+						if (tool.getManifest().getManifestInfoLastModifiedUtc() != null)
+						{
+							console.writeLine("Last change of manifest info:  " +
+								(tool.getManifest().getManifestInfoLastModifiedUtc().toString()));
+						}
 						
-						console.writeLine("Date of last validation:       " +
-							(tool.getManifest().getLastValidateDateUtc().toString()));
+						if (tool.getManifest().getLastValidateDateUtc() != null)
+						{
+							console.writeLine("Date of last validation:       " +
+								(tool.getManifest().getLastValidateDateUtc().toString()));
+						}
 
 						console.writeLine("Total number of files:         " + tool.getManifest().countFiles());
 						console.writeLine("Total number of bytes:         " + tool.getManifest().countBytes());
@@ -617,13 +626,7 @@ public class RepoToolApp
 		
 		System.exit(exitCode);
 	}
-	
-	/*
-	System.out.println("Running...");
-	Manifest manifest = Manifest.ReadManifestFile(args[0]);
-	System.out.println("Done.");
-	manifest.WriteManifestFile(args[1]);
-	*/
+
 	
 	// Helper methods
 
