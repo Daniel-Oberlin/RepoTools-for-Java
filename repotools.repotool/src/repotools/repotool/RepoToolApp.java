@@ -220,7 +220,7 @@ public class RepoToolApp
 					{
 						exitCode = 1;
 					}
-					else if (commandArg != "edit")
+					else if (commandArg.equals("edit") == false)
 					{
 						tool.doUpdate();
 

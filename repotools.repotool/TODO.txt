@@ -1,3 +1,8 @@
 * Test and debug
+
+- Ignore files not working?
+
+
+* Test interoperability with .NET version
 * Move comments over from .NET and clean up
 * Add ability to use manifest prototype by specifying command line option
