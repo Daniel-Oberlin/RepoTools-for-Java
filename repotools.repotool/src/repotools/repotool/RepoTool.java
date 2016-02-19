@@ -841,9 +841,9 @@ public class RepoTool
 		// Make this a native path because we only deal with it as a native
 		// file and never as part of a repository.
 		ManifestNativeFilePath =
-				"." +
-				File.separator +
-				Manifest.defaultManifestFileName;
+			"." +
+			File.separator +
+			Manifest.defaultManifestFileName;
 		
 		PrototypeManifestFileName = ".manifestPrototype";
 		NewHashType = CryptUtilities.defaultHashType;

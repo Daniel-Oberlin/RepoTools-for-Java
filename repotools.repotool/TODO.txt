@@ -6,3 +6,7 @@
 * Test interoperability with .NET version
 * Move comments over from .NET and clean up
 * Add ability to use manifest prototype by specifying command line option
+
+Doc updates:
+For java version, when entering regex for ignore, you must either escape backslashes with double backslash or enclose the string in double quotes
+Does this apply when using Mono version from OSX?

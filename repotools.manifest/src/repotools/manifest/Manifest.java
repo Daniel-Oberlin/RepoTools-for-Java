@@ -9,7 +9,6 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-import java.util.regex.Matcher;
 
 import repotools.utilities.CryptUtilities;
 import repotools.utilities.TempDirUtilities;
@@ -50,7 +49,7 @@ public class Manifest
 		// Ignore the manifest file itself
 		manifest.ignoreList.add(
 			"^" +
-			Matcher.quoteReplacement(Manifest.defaultManifestStandardFilePath) +
+			escapeForRegexPattern(Manifest.defaultManifestStandardFilePath) +
 			"$");
 
 		// This temporary directory is only used by RepoSync
@@ -62,7 +61,7 @@ public class Manifest
 		// Add this to ignore temp files if RepoSync operation is interrupted
 		manifest.ignoreList.add(
 			"^" +
-			Matcher.quoteReplacement(tempDirectoryStandardPath));
+			escapeForRegexPattern(tempDirectoryStandardPath));
 
 		return manifest;
 	}
@@ -471,6 +470,26 @@ public class Manifest
 		}
 		
 		return true;
+	}
+	
+	public static String escapeForRegexPattern(String originalString)
+	{
+		String escapedString = "";
+		String escapeThese = ".()[]$^";
+
+		for (int i = 0; i < originalString.length(); i++)
+		{
+			char nextChar = originalString.charAt(i);
+			
+			if (escapeThese.indexOf(nextChar) >= 0)
+			{
+				escapedString += '\\';
+			}
+			
+			escapedString += nextChar;
+		}
+		
+		return escapedString;
 	}
 	
 	/// <summary>
