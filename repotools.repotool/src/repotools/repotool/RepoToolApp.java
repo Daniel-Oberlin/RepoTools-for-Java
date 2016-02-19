@@ -187,11 +187,11 @@ public class RepoToolApp
 				case "edit":
 				case "groom":
 				{
-					if (commandArg == "validate")
+					if (commandArg.equals("validate"))
 					{
 						tool.setAlwaysCheckHash(true);
 					}
-					else if (commandArg == "update")
+					else if (commandArg.equals("update"))
 					{
 						tool.setUpdate(true);
 					}
@@ -202,11 +202,11 @@ public class RepoToolApp
 					{
 						tool.setManifest(Manifest.readManifestFile(manifestFilePath));
 					
-						if (commandArg == "validate" && noTouch == false)
+						if (commandArg.equals("validate") && noTouch == false)
 						{
 							// Read a second copy which will remain unmodified
 							manifestForValidateDateUpdate =
-							Manifest.readManifestFile(manifestFilePath);
+								Manifest.readManifestFile(manifestFilePath);
 						}
 					}
 					catch (Exception ex)
@@ -300,7 +300,7 @@ public class RepoToolApp
 
 						console.writeLine(tool.getFileCheckedCount() + " files were checked.");
 						
-						if (commandArg == "validate")
+						if (commandArg.equals("validate"))
 						{
 							if (different)
 							{
