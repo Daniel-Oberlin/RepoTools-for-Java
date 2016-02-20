@@ -401,17 +401,17 @@ public class RepoTool
 					}
 					
 					newManFileInfo.setFileLength(
-					nextFileInfo.length());
+						nextFileInfo.length());
 					
 					newManFileInfo.setLastModifiedUtc(
-					new Date(nextFileInfo.lastModified()));
+						new Date(nextFileInfo.lastModified()));
 					
 					newManFileInfo.setRegisteredUtc(
-					new Date());
+						new Date());
 					
 					currentManfestDirInfo.getFiles().put(
-					nextFileName,
-					newManFileInfo);
+						nextFileName,
+						newManFileInfo);
 				}
 				
 				writeLine("");
@@ -587,8 +587,8 @@ public class RepoTool
 		
 		for (FileHash nextHash : fileDict.keySet())
 		{
-		ArrayList<ManifestFileInfo> nextList =
-			fileDict.get(nextHash);
+			ArrayList<ManifestFileInfo> nextList =
+				fileDict.get(nextHash);
 		
 			if (nextList.size() > 1)
 			{

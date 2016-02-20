@@ -47,7 +47,7 @@ public class FileHash
 		
 		FileHash other = (FileHash) obj;
 		
-		if (other.hashType != hashType)
+		if (other.hashType.equals(hashType) == false)
 		{
 			return false;
 		}
@@ -79,8 +79,8 @@ public class FileHash
 		File file,
 		String hashType) throws Exception
 	{
-	return new FileHash(
-		CryptUtilities.computeHash(file, hashType),
-		hashType);
+		return new FileHash(
+			CryptUtilities.computeHash(file, hashType),
+			hashType);
 	}
 }

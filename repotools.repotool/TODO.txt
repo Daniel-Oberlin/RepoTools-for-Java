@@ -1,7 +1,5 @@
 * Test and debug
 
-- The -trackMoves option is not working
-
 
 * Test .NET version
 * Test interoperability with .NET version
