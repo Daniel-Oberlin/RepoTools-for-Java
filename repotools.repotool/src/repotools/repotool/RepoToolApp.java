@@ -139,7 +139,7 @@ public class RepoToolApp
 		// Outer loop over manifests
 		for (String manifestFilePath : manifestFilePaths)
 		{
-			if (recursive)
+			if (recursive == true)
 			{
 				console.writeLine(new File(manifestFilePath).getParentFile().getCanonicalPath() + ":");
 			}
@@ -153,7 +153,16 @@ public class RepoToolApp
 			Manifest manifestForValidateDateUpdate = null;
 
 			File fileInfo = new File(manifestFilePath);
-			tool.setRootDirectory(fileInfo.getParentFile());
+			
+			if (recursive == true)
+			{
+				tool.setRootDirectory(fileInfo.getParentFile());
+			}
+			else
+			{
+				// In case -manifestFile was specified, we always want this:
+				tool.setRootDirectory(new File(System.getProperty("user.dir")));
+			}
 
 			// Command-specific code to initialize tool object and
 			// manifest object, and then execute command using tool.
@@ -624,6 +633,11 @@ public class RepoToolApp
 			console.writeLine("Duration: " + duration.toString());
 		}
 		
+		if (recursive == false)
+		{
+			console.writeLine();
+		}
+		
 		System.exit(exitCode);
 	}
 
@@ -663,7 +677,7 @@ public class RepoToolApp
 			for (File nextSubDirectory :
 				nextDirectory.listFiles())
 			{
-				if (nextDirectory.isDirectory())
+				if (nextSubDirectory.isDirectory())
 				{
 					findManifests(
 						nextSubDirectory,

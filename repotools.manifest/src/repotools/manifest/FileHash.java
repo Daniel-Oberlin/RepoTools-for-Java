@@ -29,7 +29,7 @@ public class FileHash
 			objectHashIsSet = true;
 		}
 
-	return objectHash;
+		return objectHash;
 	}
 
 	@Override

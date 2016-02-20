@@ -343,10 +343,17 @@ public class RepoTool
 					ignoredFiles.add(newManFileInfo);
 			
 					// Don't groom the manifest file!
-					if (Manifest.makeNativePathString(newManFileInfo) !=
-						ManifestNativeFilePath)
+					try
 					{
-						ignoredFilesForGroom.add(nextFileInfo);
+						if (nextFileInfo.getCanonicalPath().equals(
+							manifest.getManifestFile().getCanonicalPath()) == false)
+						{
+							ignoredFilesForGroom.add(nextFileInfo);
+						}
+					}
+					catch (Exception ex)
+					{
+						// What to do?
 					}
 
 					write(" [IGNORED]");
@@ -545,10 +552,19 @@ public class RepoTool
 				String checkNewFilePath =
 					Manifest.makeNativePathString(checkNewFile);
 				
-				if (checkNewFilePath != ManifestNativeFilePath)
+				File newFile = new File(checkNewFilePath);
+				
+				try
 				{
-					newFilesForGroom.add(
-						new File(checkNewFilePath));
+					if (newFile.getCanonicalPath().equals(
+						manifest.getManifestFile().getCanonicalPath()) == false)
+					{
+						newFilesForGroom.add(newFile);
+					}
+				}
+				catch (Exception ex)
+				{
+					// What to do?
 				}
 			}
 		}

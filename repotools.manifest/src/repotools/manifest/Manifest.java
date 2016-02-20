@@ -1,6 +1,7 @@
 package repotools.manifest;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -103,9 +104,9 @@ public class Manifest
 
 	public static Manifest readManifestFile(String manifestFilePath)
 		throws IOException
-	{
+	{		
 		BufferedReader reader = new BufferedReader(
-				new FileReader(manifestFilePath));
+			new FileReader(manifestFilePath));
 
 		Gson gson = makeGson();
 		Manifest manifest = gson.fromJson(reader, Manifest.class);
@@ -113,6 +114,8 @@ public class Manifest
 		// We don't serialize references back to the parent because it causes
 		// cycles in the graph which can't be traversed by gson.
 		manifest.setParentDirectories(manifest.getRootDirectory());
+		
+		manifest.manifestFile = new File(manifestFilePath);
 		
 		return manifest;
 	}
@@ -333,6 +336,12 @@ public class Manifest
 		return ignoreList;
 	}
 	
+	private File manifestFile;
+	public File getManifestFile()
+	{
+		return manifestFile;
+	}
+
 	private UUID guid;
 	private ManifestDirectoryInfo rootDirectory;
 	private String name;
