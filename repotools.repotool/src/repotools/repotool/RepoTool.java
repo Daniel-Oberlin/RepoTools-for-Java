@@ -198,6 +198,7 @@ public class RepoTool
 					changedFiles.add(nextManFileInfo);
 				}
 				else if (alwaysCheckHash == true ||
+					makeNewHash == true ||
 					nextManFileInfo.getFileHash() == null ||
 					Manifest.compareManifestDateToFilesystemDate(
 						new Date(nextFileInfo.lastModified()),
@@ -266,7 +267,7 @@ public class RepoTool
 					{
 						try
 						{
-							checkHash = FileHash.computeHash(
+							newHash = FileHash.computeHash(
 								nextFileInfo,
 								getNewHashType(manifest));
 						}
@@ -378,7 +379,7 @@ public class RepoTool
 							newManFileInfo.setFileHash(
 								FileHash.computeHash(
 								nextFileInfo,
-								NewHashType));
+								getNewHashType(manifest)));
 						}
 						catch (Exception ex)
 						{
