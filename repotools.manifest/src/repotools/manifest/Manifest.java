@@ -6,9 +6,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.text.Normalizer;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import repotools.utilities.CryptUtilities;
@@ -223,8 +228,8 @@ public class Manifest
 	{
 		return new GsonBuilder()
 			.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-			.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 			.registerTypeHierarchyAdapter(byte[].class, new ByteArrayToBase64TypeAdapter())
+			.registerTypeAdapter(Date.class, new DateTypeAdapter())
 			.create();
 	}
 	
@@ -248,6 +253,41 @@ public class Manifest
 		public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context)
 		{
 			return new JsonPrimitive(Base64.encodeBytes(src));
+		}
+	}
+	
+	// Code below works around a bug in GSON where it will only serialize date
+	// to local timezone, and not in UTC.
+	///
+	// GSON default date serializer is locale-specific
+	// https://github.com/google/gson/issues/281
+	private static class DateTypeAdapter implements JsonSerializer<Date>, JsonDeserializer<Date>
+	{
+		private final DateFormat dateFormat;
+		
+		private DateTypeAdapter()
+		{
+			dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+			dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		}
+		
+		@Override public synchronized JsonElement serialize(Date date, Type type,
+		JsonSerializationContext jsonSerializationContext)
+		{
+			return new JsonPrimitive(dateFormat.format(date));
+		}
+		
+		@Override public synchronized Date deserialize(JsonElement jsonElement, Type type,
+		JsonDeserializationContext jsonDeserializationContext)
+		{
+			try
+			{
+				return dateFormat.parse(jsonElement.getAsString());
+			}
+			catch (ParseException e)
+			{
+				throw new JsonParseException(e);
+			}
 		}
 	}
 
@@ -459,7 +499,7 @@ public class Manifest
 	public static boolean compareManifestDateToFilesystemDate(Date date1, Date date2)
 	{
 		if (Math.abs(date1.getTime() - date2.getTime()) >
-		filesystemDateToleranceMilliseconds)
+			filesystemDateToleranceMilliseconds)
 		{
 			return false;
 		}
