@@ -681,7 +681,7 @@ public class RepoTool
 			Pattern pattern = Pattern.compile(nextExpression);
 			Matcher matcher = pattern.matcher(fileName);
 		
-			if (matcher.matches())
+			if (matcher.find())
 			{
 				return true;
 			}
