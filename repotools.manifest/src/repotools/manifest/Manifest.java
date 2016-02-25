@@ -241,7 +241,7 @@ public class Manifest
 		{
 			try
 			{
-				return Base64.decode(json.getAsString());
+				return Base64.decode(json.getAsString(), Base64.DONT_GUNZIP);
 			}
 			catch (IOException e)
 			{
