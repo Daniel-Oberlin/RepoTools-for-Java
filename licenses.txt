@@ -1,0 +1,5 @@
+gson:
+
+https://github.com/google/gson
+
+This is Apache 2.0 licensed.
